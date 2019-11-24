@@ -68,10 +68,10 @@ class ClusteringMachine(object):
         self.sg_features = {}
         self.sg_targets = {}
         for cluster in self.clusters:
-            subgraph = self.graph.subgraph([node for node in sorted(self.graph.nodes()) if self.cluster_membership[node] == cluster])
+            subgraph = self.graph.subgraph([node for node in sorted(self.graph.nodes()) if self.cluster_membership[node] == cluster]) # generate subgraph based on nodes in a cluster
             self.sg_nodes[cluster] = [node for node in sorted(subgraph.nodes())]
             mapper = {node: i for i, node in enumerate(sorted(self.sg_nodes[cluster]))}
-            self.sg_edges[cluster] = [[mapper[edge[0]], mapper[edge[1]]] for edge in subgraph.edges()] +  [[mapper[edge[1]], mapper[edge[0]]] for edge in subgraph.edges()]
+            self.sg_edges[cluster] = [[mapper[edge[0]], mapper[edge[1]]] for edge in subgraph.edges()] +  [[mapper[edge[1]], mapper[edge[0]]] for edge in subgraph.edges()] # undirected graph
             self.sg_train_nodes[cluster], self.sg_test_nodes[cluster] = train_test_split(list(mapper.values()), test_size = self.args.test_ratio)
             self.sg_test_nodes[cluster] = sorted(self.sg_test_nodes[cluster])
             self.sg_train_nodes[cluster] = sorted(self.sg_train_nodes[cluster])

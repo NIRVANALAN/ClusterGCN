@@ -35,7 +35,7 @@ class StackedGCN(torch.nn.Module):
         :return predictions: Prediction matrix output FLoatTensor.
         """
         for i, _ in enumerate(self.args.layers[:-2]):
-            features = torch.nn.functional.relu(self.layers[i](features, edges))
+            features = torch.nn.functional.relu(self.layers[i](features, edges)) # relu after the first layer
             if i>1:
                 features = torch.nn.functional.dropout(features, p = self.args.dropout, training = self.training)
         features = self.layers[i+1](features, edges)
